@@ -1,6 +1,8 @@
 {
   "name": "healthcheck-dashboard-api",
   "version": "1.0.0",
+  "packageManager": "npm@10.9.0",
+  "engines": { "node": ">=20 <23", "npm": ">=10" },
   "type": "module",
   "scripts": {
     "start": "node src/local.js",
