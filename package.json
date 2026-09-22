@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "start": "node src/local.js",
     "dev": "node src/local.js",
     "seed:admin": "node scripts/seedAdmin.js",
     "deploy": "serverless deploy"
