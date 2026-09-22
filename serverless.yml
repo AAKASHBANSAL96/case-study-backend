@@ -1,0 +1,17 @@
+service: healthcheck-ops-api
+frameworkVersion: '3'
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-south-1
+  timeout: 29
+  memorySize: 1024
+  environment:
+    MONGODB_URI: ${env:MONGODB_URI}
+    JWT_SECRET: ${env:JWT_SECRET}
+functions:
+  api:
+    handler: src/lambda.handler
+    events:
+      - httpApi: { path: /{proxy+}, method: '*' }
+      - httpApi: { path: /, method: '*' }
