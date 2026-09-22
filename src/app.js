@@ -7,7 +7,7 @@ import { tokenFor, requireAuth } from "./auth.js";
 import { parseChecks } from "./services/importer.js";
 
 const app = express();
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '100mb' }));
 
 app.use(cors({ origin: process.env.FRONTEND_ORIGIN?.split(",") || true }));
 app.post('/auth/role-login', async (req, res) => {
