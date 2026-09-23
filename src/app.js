@@ -80,16 +80,22 @@ app.post("/uploads", requireAuth(["admin"]), async (req, res) => {
         (parsed.reasons.duplicate_in_database || 0) + (docs.length - inserted);
     }
     const valid = docs.slice(0, inserted);
+    const range = valid.reduce(
+      (bounds, record) => {
+        const timestamp = +record.checkedAt;
+        return {
+          start: Math.min(bounds.start, timestamp),
+          end: Math.max(bounds.end, timestamp),
+        };
+      },
+      { start: Infinity, end: -Infinity },
+    );
     await Upload.findByIdAndUpdate(upload._id, {
       acceptedRows: inserted,
       rejectedRows: parsed.totalRows - inserted,
       rejectionReasons: parsed.reasons,
-      rangeStart: valid.length
-        ? new Date(Math.min(...valid.map((x) => +x.checkedAt)))
-        : null,
-      rangeEnd: valid.length
-        ? new Date(Math.max(...valid.map((x) => +x.checkedAt)))
-        : null,
+      rangeStart: valid.length ? new Date(range.start) : null,
+      rangeEnd: valid.length ? new Date(range.end) : null,
     });
     res
       .status(201)
